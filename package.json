@@ -2,14 +2,15 @@
   "name": "simplou-youtube-explorer",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "HenryLucca",
   "license": "ISC",
   "dependencies": {
-    "@types/gapi": "^0.0.47",
-    "dotenv": "^16.4.5"
-  }
+    "dotenv": "^16.4.5",
+    "googleapis": "^133.0.0"
+  },
+  "type": "module"
 }
