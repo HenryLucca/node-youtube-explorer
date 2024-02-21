@@ -7,20 +7,32 @@ const gapi = google.youtube({
   auth: process.env.API_KEY,
 });
 
-const comments = await getVideoComments();
+const data = await getVideoComments();
+const comments = data.items;
+
+while (data.nextPageToken) {
+  const nextData = await getVideoComments(data.nextPageToken);
+  comments.push(...nextData.items);
+  data.nextPageToken = nextData.nextPageToken;
+}
 
 console.log("Comments:", comments);
 
-async function getVideoComments() {
+async function getVideoComments(pageToken) {
   return gapi.commentThreads
     .list({
       part: ["snippet"],
       order: "relevance",
       videoId: "r55_hiiN520",
+      maxResults: 100,
+      pageToken,
     })
     .then(
       function (response) {
-        return response.data.items;
+        return response.data;
+        // return response.data.items.map(
+        //   (item) => item.snippet.topLevelComment.snippet.textDisplay
+        // );
       },
       function (err) {
         console.error("Execute error", err);
